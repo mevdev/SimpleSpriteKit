@@ -16,7 +16,9 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
+        let label = SKLabelNode(text: "Hello World")
+        self.addChild(label)
+        label.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         if let label = self.label {
             label.alpha = 0.0
             label.run(SKAction.fadeIn(withDuration: 2.0))
@@ -63,7 +65,8 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+            let pulseActionSequence = SKAction.sequence([SKAction.group([SKAction.fadeOut(withDuration: 0.5), SKAction.scale(to: 0.6, duration: 0.5)]),SKAction.group([SKAction.fadeIn(withDuration: 0.5), SKAction.scale(to: 1.0, duration: 0.5)])])
+            label.run(pulseActionSequence)
         }
         
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
